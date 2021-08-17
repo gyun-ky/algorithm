@@ -1,6 +1,6 @@
 
+graph = []
+for _ in range(2):
+    graph.append(list(map(int, input())))
 
-graph = [[2]*(3+1) for i in range(0, 3+1)]
-
-for i in graph[1]:
-    print(i)
+print(graph)
