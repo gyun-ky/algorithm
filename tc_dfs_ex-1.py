@@ -1,17 +1,14 @@
 import sys
 input = sys.stdin.readline
 
-stack = []
+
 graph = [
     [],
-    [2, 3, 8],
-    [1, 7],
-    [1, 4, 5],
+    [4, 3, 2],
+    [2, 4],
+    [1, 3, ],
     [3, 5],
     [3, 4],
-    [7],
-    [2, 6, 8],
-    [1, 7]
 ]
 
 visited = [False]*9
