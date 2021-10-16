@@ -1,15 +1,10 @@
+from simplecrypt import encrypt, decrypt
 
-array = [100, 3000, 232]
-new_array = []
+passkey = "pickypickyfarm"
+key = "hello"
+cipher = encrypt(passkey, key)
+print(cipher)
 
-for i in range(len(array)):
-    tmp = array[i]
-    while True:
-        if tmp // 10 < 1:
-            new_array.append(tmp)
-            break
-        else:
-            tmp = tmp // 10
-            print(tmp)
+destr = decrypt(passkey, cipher)
+print(destr)
 
-print(new_array)
