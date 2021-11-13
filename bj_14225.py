@@ -1,32 +1,28 @@
-import sys
-input = sys.stdin.readline
+#bj 14225 - 비트마스크로 다시 풀어보기
+import itertools
+
+check = [False]*200000
 
 N = int(input())
-S = list(map(int, input().split()))
-check = [False]*2000000
+data = list(map(int, input().split()))
 
-min = int(1e9)
-
-def search(idx, sum):
-    global min
-    if idx == N:
-        check[sum] = True
-        if sum != 0 and min > sum:
-            min = sum
-        return
-    
-    search(idx+1, sum+S[idx])
-    search(idx+1, sum)
-
-    
-search(0, 0)
+for i in range(1<<N):
+    print(f'{i} 번째')
+    for j in range(N):
+        if i&(1<<j):
+            print(i&(1<<j))
 
 
-if min == 1 : 
-    for i in range(2, 2000000):
-        if check[i] is False:
-            print(i)
-            break
 
-else:
-    print(1)
+# for cnt in range(N, 0, -1):
+#     data_permut = list(itertools.permutations(data, cnt))
+#     for l in data_permut:
+#         sum = 0
+#         for num in l:
+#             sum += num
+#         check[sum] = True
+
+# for i in range(1, 2000000):
+#     if check[i] == False:
+#         print(i)
+#         break
