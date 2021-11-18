@@ -1,5 +1,5 @@
-import sys
-input = sys.stdin.readline
+l = [1, 2, 3]
+a = [1, 2, 3]
 
-for i in range(10, 0, -1):
-    print(i)
+if l == a:
+    print("true")
