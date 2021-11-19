@@ -56,15 +56,7 @@ while q:
         if visited[new_group[0]][new_group[1]] == True:
             continue
         
-        # 더했을 때 넘어간 경우
-        # if new_group[g[0]] > 500 or new_group[g[1]] > 500 :
-        #     continue
-
-        # 원래 초기값으로 돌아온다면 
-        # if new_group == group:
-        #     continue
-
-
+    
         # 세그룹이 모두 같다면
         if new_group[0] == new_group[1] == new_group[2]:
             print(1)
