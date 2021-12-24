@@ -1,5 +1,5 @@
-l = [1, 2, 3]
-a = [1, 2, 3]
+d = "2021/11/20"
 
-if l == a:
-    print("true")
+d = d.replace('/', '-')
+
+print(d)
