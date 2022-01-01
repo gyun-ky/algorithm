@@ -28,7 +28,7 @@ def bfs():
             chess.insert(0, ['.', '.', '.', '.', '.', '.', '.', '.'])
             time_save = time
         
-        if y==0:
+        if y==0 or x==7:
             return 1
         
         for i in range(9):
