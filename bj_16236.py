@@ -49,8 +49,6 @@ def bfs(i, j):
     while q:
         row, col, size, time = q.popleft()
 
-        if fish_cnt == 0:
-            return time
 
         
         for i in range(4):
@@ -72,6 +70,8 @@ def bfs(i, j):
                 # 작은 물고기 만났을 때, 
                 if space[ny][nx] < size and space[ny][nx] != 0:
                     fish_cnt -= 1
+                    if fish_cnt == 0:
+                        return time+1
                     space[ny][nx] = 0
                     visited = [[False for c in range(N)]for r in range(N)]
                     q.clear()
