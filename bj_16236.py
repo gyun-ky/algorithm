@@ -1,94 +1,67 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
-
-# 아기상어 처음 크기 2 
-# 1초에 상하좌우 한칸씩 이동
-# 자신의 크기보다 큰 물고기 칸 못지나감
-# 자신의 크기보다 작은 물고기 먹을 수 있음
-    # 물고기 먹을 때 마다 크기 1 증가
-# 자신의 크기와 같은 물고기 칸은 먹을수는 없지만 지나갈 수 있음
-
-#먹을수있는 물고기가 없는 경우 -> 엄마상어에게 도움 요청
-#먹을 수 있는 물고기 1 -> 물고기 먹으러 감
-#먹을 수 있는 물고기 1 초과 -> 거리가 가까운 물고기 먹으러감 - bfs
-    # 거리 = 이동 최소 칸의 수
-    # 거리 같은 물고기 많다면 - 가장 위 물고기 > 가장 왼쪽 물고기
-
-
-# 몇초동안 물고기를 다 먹을 수 있는지
+from collections import deque
 
 N = int(input())
 
-space = []
-fish_cnt = 0
+
+data = []
 for i in range(N):
-    space.append(list(map(int, input().split())))
+    data.append(list(map(int, input().split())))
     for j in range(N):
-        if space[i][j] == 9:
-            space[i][j] = 0
-            row, col = i, j
-        if space[i][j] != 9 and space[i][j] != 0:
-            fish_cnt+=1
+        if data[i][j] == 9:
+            data[i][j] = 0
+            shark_row, shark_col = i, j
 
 dy = [-1, 0, 0, 1]
 dx = [0, -1, 1, 0]
-# visited = [[[False for t in range(N*N*N)]for c in range(N)]for r in range(N)]
-print(fish_cnt)
-print(space)
 
-def bfs(i, j):
-    global fish_cnt
+def bfs_eating(shark_row, shark_col, cur_size):
     q = deque()
-    q_hit = []
-    q.append((i, j, 2, 0))
-    visited = [[False for c in range(N)]for r in range(N)]
-    visited[i][j] = 0
-    min_time = int(1e9)
+    q.append((shark_row, shark_col, cur_size))
+    
+    visited = [[-1 for c in range(N)]for r in range(N)]
+    visited[shark_row][shark_col] = 0
+    eatable = []
 
     while q:
-        row, col, size, time = q.popleft()
-
-
+        y, x, size = q.popleft()
         
         for i in range(4):
-            ny = row + dy[i]
-            nx = col + dx[i]
+            ny = y + dy[i]
+            nx = x + dx[i]
 
-            if 0<=ny<N and 0<=nx<N and visited[ny][nx] == False:
-                 
-                # 아무것도 없는 경우
-                if space[ny][nx] == 0:
-                    visited[ny][nx] = True
-                    q.append((ny, nx, size, time+1))
-                    continue
+            if 0<=ny<N and 0<=nx<N and visited[ny][nx] == -1:
+                if data[ny][nx] == size or data[ny][nx] == 0:
+                    visited[ny][nx] = visited[y][x] + 1
+                    q.append((ny, nx, size))
 
-                # 큰 물고기 만났을 때,
-                if space[ny][nx] > size:
-                    continue
+                elif data[ny][nx] < size:
+                    visited[ny][nx] = visited[y][x] + 1
+                    eatable.append((visited[ny][nx], ny, nx, size))
 
-                # 작은 물고기 만났을 때, 
-                if space[ny][nx] < size and space[ny][nx] != 0:
-                    fish_cnt -= 1
-                    if fish_cnt == 0:
-                        return time+1
-                    space[ny][nx] = 0
-                    visited = [[False for c in range(N)]for r in range(N)]
-                    q.clear()
-                    q.append((ny, nx, size+1, time+1))
-                    break
-                
-                # 같은 물고기 만났을 때,
-                if space[ny][nx] == size:
-                    visited[ny][nx] = True
-                    q.append((ny, nx, size, time+1))
-
-    return 0
+    if len(eatable) > 0:
+        eatable.sort(key = lambda x : (x[0], x[1], x[2]))
+        return eatable[0]
+    else:
+        return (-1, -1, -1, -1)
 
 
 
+answer = 0
+shark_size = 2
+go = True
+while go:
+    for i in range(shark_size):
+        time, s_row, s_col, s_size = bfs_eating(shark_col, shark_row, shark_size)
+
+        if time == -1 and s_col == -1 and s_row == -1 and s_size == -1:
+            go = False
+            break
+        data[s_row][s_col] = 0
+        answer += time
+        shark_col, shark_row = s_col, s_row
 
 
+print(answer)
 
-print(bfs(row, col))
-print(space)

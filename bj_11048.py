@@ -20,9 +20,10 @@ for i in range(N):
 
 for i in range(1, N):
     for j in range(1, M):
-        max_num = max(dp[i-1][j] + data[i][j], dp[i][j-1]+data[i][j])
-        max_num_result = max(max_num, dp[i-1][j-1]+data[i][j])
-        dp[i][j] = max_num_result
+        # max_num = max(dp[i-1][j] + data[i][j], dp[i][j-1]+data[i][j])
+        # max_num_result = max(max_num, dp[i-1][j-1]+data[i][j])
+        # dp[i][j] = max_num_result
+        dp[i][j] = max(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + data[i][j]
 
 
 print(dp[N-1][M-1])
