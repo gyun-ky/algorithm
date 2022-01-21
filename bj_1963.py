@@ -1,6 +1,8 @@
 from collections import deque
 import copy
 
+
+
 def check_number(num):
     i = 2
     while i * i <= num:
@@ -10,6 +12,15 @@ def check_number(num):
         i+=1
 
     return True
+
+
+def change(num, idx, s_num):
+    result = list(str(num))
+    result[idx] = str(s_num)
+    result = ''.join(result)
+
+    return int(result)
+    
 
 
 T =int(input())
@@ -40,13 +51,11 @@ for _ in range(T):
                 if int(num_str[i]) == s_num : # 변경하지 않는 경우
                     continue
 
-                r_num = copy.deepcopy(num_str)
-                r_num[i] = str(s_num) # 변환
-                r_num = ''.join(r_num)
-
-                if check_number(int(r_num)) and visited[int(r_num)] >= cnt+1:
-                    q.append((int(r_num), cnt+1))
-                    visited[int(r_num)] = cnt+1
+                r_num = change(num, i, s_num)
+               
+                if check_number(r_num) and visited[r_num] >= cnt+1:
+                    q.append((r_num, cnt+1))
+                    visited[r_num] = cnt+1
 
     if visited[b] == int(1e9):
         print(0)
