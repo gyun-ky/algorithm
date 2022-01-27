@@ -1,8 +1,11 @@
-args_consumer = {
-            "hello" : "hi"
-        }
 
-args_consumer["#{link_2}"] = f"www.{3}pickyfarm.com/user/mypage/orders" # 비회원용 구매확인 링크
+try:
+    a = [1,2]
+    print(a[3])
+    4/0
+except ZeroDivisionError:
+    print("0으로 나눌 수 없습니다.")
+except IndexError:
+    print("인덱싱 할 수 없습니다.")
 
-
-print(args_consumer)
+print("안녕")
