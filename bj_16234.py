@@ -25,7 +25,6 @@ while True:
             united = [(r, c)]
             people_sum = A[r][c]
             visited[r][c] = True
-            total_visit -= 1
 
             while q:
                 y, x = q.popleft()
@@ -35,27 +34,24 @@ while True:
                     nx = x + dx[i]
 
                     if 0<= ny < N and 0 <= nx < N and visited[ny][nx] == False:
-                        if L<= abs(A[ny][nx] - A[x][y]) <= R:
+                        if L<= abs(A[ny][nx] - A[y][x]) <= R:
                             q.append((ny, nx))
                             united.append((ny, nx))
                             people_sum += A[ny][nx]
                             visited[ny][nx] = True
-                            total_visit -=1
 
 
             if len(united) == 1:
                 continue
             else:
                 move = True
-                after_cnt = int(people_sum/len(united))
+                after_cnt = people_sum//len(united)
                 for n in united:
                     A[n[0]][n[1]] = after_cnt
             
-        if total_visit == 0:
-            break
-
     if move is True:
         day+=1
     else:
-        print(day)
         break
+
+print(day)
