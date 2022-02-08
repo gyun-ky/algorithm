@@ -1,5 +1,4 @@
-N = 3
+nut = [[5]*5 for _ in range(5)]
 
-trees = [[] for _ in range(N)]
 
-print(trees)
+print(nut)
