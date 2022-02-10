@@ -11,7 +11,7 @@ R, C, M = map(int, input().split())
 
 def check_limit_x(position, c):
     # -가 되면 abs한 후에 2더하기
-    
+
     # 양수이고 C를 넘어간다면 
 
 def check_limit_y(position, c)
@@ -48,15 +48,25 @@ for p in range(1, C+1):
         nr, nc = sharks[s_idx][0], sharks[s_idx][1]
         # 위 방향인 경우
         if sharks[s_idx][3] == 1:
-            
+            nr = check_limit_y
         # 아래 방향인 경우
         elif sharks[s_idx][3] == 2:
-
+            nr = check_limit_y
         # 오른쪽 방향인 경우
         elif sharks[s_idx][3] == 3:
-
+            nc = check_limit_x
         # 왼쪽 방향인 경우
         elif sharks[s_idx][3] == 4:
+            nc = check_limit_x
+
+        if water_tmp[nr][nc] != -1:
+            cmp_shark_id = water_tmp[nr][nc]
+            if sharks[cmp_shark_id][4] > sharks[s_idx][4]:
+                rmv_shark_idx.append(s_idx)
+            else:
+                water_tmp[nr][nc] = s_idx
+                rmv_shark_idx.append(cmp_shark_id)
+            
 
 
     for rmv_idx in rmv_shark_idx:
