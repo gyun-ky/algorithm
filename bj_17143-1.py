@@ -125,12 +125,3 @@ for p in range(1, C+1):
         
 
 print(answer)
-
-
-
-
-
-
-
-
-
