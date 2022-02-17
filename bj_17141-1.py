@@ -26,13 +26,9 @@ for i in range(N):
             blank_cnt_static += 1
 
 
-
 # blank_cnt_static -= M # 빼주지 않는다 추후 큐에서 popleft할 때 빼줄것이다
 
-
 virus_comb =list(combinations(virus, M))
-
-
 
 
 # 포인트는 바이러스가 여러개라는 것 - 동시에 퍼져나가는 것이기 때문에
