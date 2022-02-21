@@ -22,13 +22,11 @@ for _ in range(3):
 # q(1번째 막대 list, 2번째 막대 list, 3번째 막대 list, cnt)
 q = deque()
 q.append((init_data[0], init_data[1], init_data[2], 0))
-
+visited = set()
+visited.add(init_data[0] + '|' + init_data[1] + '|' + init_data[2])
 # 만약 꺼냈는데 각각의 막대르르 조사
 while q:
     first, second, third, cnt = q.popleft()
-    first_list = list(first.strip())
-    second_list = list(second.strip())
-    third_list = list(third.strip())
 
     # print("------")
     # print(cnt)
@@ -37,69 +35,74 @@ while q:
     # print(third_list)
     # print("[-------")
     all_same_flag = True
-    for c in first_list:
-        if c != 'A':
+    for c_idx in range(len(first)):
+        if first[c_idx] != 'A':
             all_same_flag = False
 
-    for c in second_list:
-        if c != 'B':
+    for c_idx in range(len(second)):
+        if second[c_idx] != 'B':
             all_same_flag = False
 
-    for c in third_list:
-        if c != 'C':
+    for c_idx in range(len(third)):
+        if third[c_idx] != 'C':
             all_same_flag = False
 
     if all_same_flag is True:
         print(cnt)
         break
-
+    
     else:
+        
         # 첫번째 막대 top 다른 두 막대에
-        if first_list:
-            circle = first_list[-1]
+        if len(first) != 0:
+            circle = first[-1]
 
-            second_list.append(circle)
-            third_list.append(circle)
-
-            next_first = ''.join(first_list[0:len(first_list)-1])
-            next_second = ''.join(second_list)
-            next_third = ''.join(third_list)
-            q.append((next_first, next_second, third, cnt+1))
-            q.append((next_first, second, next_third, cnt+1))
-            del second_list[-1]
-            del third_list[-1]
+            next_second = second + circle
+            next_third = third + circle
+            
+            next_first = first[0:-1]
+            if (next_first + '|' + next_second + '|' + third) not in visited:
+                q.append((next_first, next_second, third, cnt+1))
+                visited.add(next_first + '|' + next_second + '|' + third)
+            
+            if (next_first + '|' + second + '|' + next_third) not in visited:
+                q.append((next_first, second, next_third, cnt+1))
+                visited.add(next_first + '|' + second + '|' + next_third)
 
 
         # 두번째 막대 top 다른 두 막대에
-        if second_list :
-            circle = second_list[-1]
+        if len(second) != 0 :
+            circle = second[-1]
 
-            first_list.append(circle)
-            third_list.append(circle)
+            next_first = first + circle
+            next_third = third + circle
 
-            next_second = ''.join(second_list[0:len(second_list)-1])
-            next_first = ''.join(first_list)
-            next_third = ''.join(third_list)
-            q.append((next_first, next_second, third, cnt+1))
-            q.append((first, next_second, next_third, cnt+1))
-            del first_list[-1]
-            del third_list[-1]
-        
+            next_second = second[0:-1]
+            if (next_first + '|' + next_second + '|' + third) not in visited:
+                q.append((next_first, next_second, third, cnt+1))
+                visited.add(next_first + '|' + next_second + '|' + third)
+
+            if (first + '|' + next_second + '|' + next_third) not in visited:
+                q.append((first, next_second, next_third, cnt+1))
+                visited.add(first + '|' + next_second + '|' + next_third)
+ 
         # 세번째 막대 top 다른 두 막대에
-        if third_list :
-            circle = third_list[-1]
+        if len(third) != 0 :
+            circle = third[-1]
 
-            first_list.append(circle)
-            second_list.append(circle)
+            next_first = first + circle
+            next_second= second + circle
 
-            next_third = ''.join(third_list[0:len(third_list)-1])
-            next_first = ''.join(first_list)
-            next_second = ''.join(second_list)
-            q.append((next_first, second, next_third, cnt+1))  
-            q.append((first, next_second, next_third, cnt+1))   
-            del first_list[-1]
-            del second_list[-1]
-        
+            next_third = third[0:-1]
+
+            if (next_first + '|' + second + '|' + next_third) not in visited:
+                q.append((next_first, second, next_third, cnt+1))  
+                visited.add(next_first + '|' + second + '|' + next_third)
+            
+            if (first + '|' + next_second + '|' + next_third) not in visited:
+                q.append((first, next_second, next_third, cnt+1))   
+                visited.add(first + '|' + next_second + '|' + next_third)
+          
 
 # 한개라도 다르다면 -> 해당 top을 다른 두 막대에 옮기고, cnt 올리고 큐에 넣기
 
