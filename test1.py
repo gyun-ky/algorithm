@@ -1,8 +1,4 @@
-num = 3
-num_bin = format(num,'b').zfill(4)
-print(num_bin)
-print(type(num_bin[1]))
+print(1<<1)
 
-
-
+print(5 & (1<<1))
 # commit

@@ -8,9 +8,7 @@
 # N, M 이 주어지고 
 # 이진수의 각 비트로 주어짐 = 0001 - 서 / 0010 - 북 / 0100 - 동 / 1000 - 남
 
-from bj_16234 import L
 from collections import deque
-from tkinter import W
 
 N, M = map(int, input().split())
 
@@ -63,45 +61,45 @@ for i in range(M):
         for idx in range(4):
             set_space_dir(idx, num_bin[idx], castle[i][j])
 
-print(castle[0][0].south)
-
 
 # 방의 개수 room_cnt 
-# 방의 크기를 구하기 위해서는 dfs
-
+# 방의 크기를 구하기 위해서는 bfs
 
 room_cnt = 0
 max_size = 0
+integrated_max_size = 0
 for i in range(M):
     for j in range(N):
         q = deque()
+        room_visitied = [[False]* N for i in range(M)]
+
         if visited_total[i][j] != 0:
             continue
         size = 0
         q.append((i, j))
         size +=1
         room_cnt += 1
-        room_visitied = True
-        room_visitied = [[False]* N for i in range(M)]
+        room_visitied[i][j] = True
+        
         while q:
             row, col = q.popleft()
 
-            if castle[row][col].north is False:
+            if castle[row][col].north is False and room_visitied[row-1][col] is False:
                 q.append((row-1, col))
                 room_visitied[row-1][col] = True
                 size +=1
             
-            if castle[row][col].south is False:
+            if castle[row][col].south is False and room_visitied[row+1][col] is False:
                 q.append((row+1, col))
                 room_visitied[row+1][col] = True
                 size +=1
             
-            if castle[row][col].west is False:
+            if castle[row][col].west is False and room_visitied[row][col-1] is False:
                 q.append((row, col-1))
                 room_visitied[row][col-1] = True
                 size +=1
             
-            if castle[row][col].east is False:
+            if castle[row][col].east is False and room_visitied[row][col+1] is False:
                 q.append((row, col+1))
                 room_visitied[row][col+1] = True
                 size +=1
@@ -113,9 +111,25 @@ for i in range(M):
             for nj in range(N):
                 if room_visitied[ni][nj] is True:
                     visited_total[ni][nj] = size
+                    
+                    if castle[ni][nj].north is True and ni-1 >= 0 and visited_total[ni-1][nj] != 0 and room_visitied[ni-1][nj] is False:
+                        integrated_max_size = max(integrated_max_size, size + visited_total[ni-1][nj])
+
+                    if castle[ni][nj].west is True and nj-1 >= 0 and visited_total[ni][nj-1] != 0 and room_visitied[ni][nj-1] is False:
+                        integrated_max_size = max(integrated_max_size, size + visited_total[ni][nj-1])
+
+                    if castle[ni][nj].south is True and ni+1 < M and visited_total[ni+1][nj] != 0 and room_visitied[ni+1][nj] is False:
+                        integrated_max_size = max(integrated_max_size, size + visited_total[ni+1][nj])
+
+                    if castle[ni][nj].east is True and nj+1 < N and visited_total[ni][nj+1] != 0 and room_visitied[ni][nj+1] is False:
+                        integrated_max_size = max(integrated_max_size, size + visited_total[ni][nj+1])
+
+                    
 
 
-for i in range(M):
-    for j in range(N):
-        
-
+print(room_cnt)
+print(max_size)
+if M==1 and N == 1:
+    print(visited_total[0][0])
+else:
+    print(integrated_max_size)
