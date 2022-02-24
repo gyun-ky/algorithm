@@ -17,7 +17,7 @@ def bfs(i, j, room_idx):
     q.append((i, j))
     size = 0
     visited[i][j] = room_idx
-
+#
     while q:
         row, col = q.popleft()
         size += 1
