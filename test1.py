@@ -1,4 +1,6 @@
-print(1<<1)
+from itertools import permutations
 
-print(5 & (1<<1))
+a = [(1,2), (3, 4), (4,5)]
+
+print(list(permutations(a, 3)))
 # commit
