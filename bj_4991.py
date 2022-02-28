@@ -11,6 +11,7 @@
 
 from collections import deque
 from itertools import permutations
+from readline import set_pre_input_hook
 
 
 dx = [0, 1, 0, -1]
@@ -79,19 +80,34 @@ while True:
     for i in range(len(dirty)):
         each_node_dist_list.append(bfs(dirty[i][0], dirty[i][1], w, h))
 
-    dirty_idx = [i for i ]
-    permutation_dirty_list = list(permutations(dirty, len(dirty)))
+    dirty_idx = [i for i in range(len(dirty))]
+    permutation_dirty_list = list(permutations(dirty_idx, len(dirty)))
 
-    ans = int(1e9)
+    result_ans= int(1e9)
 
-    for p in permutation_dirty_list:
-        
+    for p_list in permutation_dirty_list:
+        flag = True
+        ans = start_dist[dirty[p_list[0]][0]][dirty[p_list[0]][1]]
+        if ans == -1:
+            flag = False
+            continue
+        for pi in range(len(p_list)-1):
+            s_dirty_idx = p_list[pi]
+            d_dirty_idx = p_list[pi+1]
+            tmp_ans = each_node_dist_list[s_dirty_idx][dirty[d_dirty_idx][0]][dirty[d_dirty_idx][1]]
+            if tmp_ans == -1:
+                flag = False
+                break
+            else:
+                ans += tmp_ans
 
-
-    if ans == int(1e9):
+        if flag == True:
+            result_ans = min(result_ans, ans)
+#
+    if result_ans == int(1e9):
         print(-1)
     else:
-        print(ans)
+        print(result_ans)
 
 
 
