@@ -4,22 +4,23 @@
 
 # 올바른 괄호 문자열의 개수
 
-T = int(input())
 
-dp = [[0]*5001]
-dp[2] = 1
-dp[4] = 2
-dp[6] = 1 + dp[4] + 2(dp[4]-1) 
+dpe = [0]*5001
+dpe[2] = 1
+dpe[4] = 2
+dpe[6] = 1 + dpe[4] + 2*(dpe[4]-1) 
 
 for i in range(4, 2500):
 
-    dp[2*i] = 1 + dp[2*i-2] + 2*(dp[2*i-2]-1) - 2(i-4)+1
+    dpe[2*i] = 1 + dpe[2*(i-1)] + 2*(dpe[2*i-2]-1) - 2*(i-4)+1
+
+T = int(input())
 
 for _ in range(T):
     length = int(input())
 
-    print(dp[length])
-    
+    print(dpe[length])
+
 
     # 길이가 1 -> 0 (  )
     # 길이가 2 -> 1 ()
