@@ -56,3 +56,12 @@ b[2][0][1] = 1
 print("---")
 print(b)
 print(b[0])
+
+print("=---")
+a = [1,2,3]
+b = [2, 3, 4]
+print(a+b)
+print(list(reversed(b)))
+
+print(a[-1])
+print(a)

@@ -20,7 +20,10 @@ for c in coin:
         if i-c >= 0:
             dp[i] = min(dp[i], dp[i-c]+1)
 
+
 if dp[k] == int(1e9):
     print(-1)
 else:
     print(dp[k])
+
+
