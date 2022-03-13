@@ -34,7 +34,7 @@ while (False in visited):
         if visited[idx] is False and dist[idx] > dist[start] + cost:
             dist[idx] = dist[start] + cost
     
-    # 현재 방문하지 않은 vertex 중에서 가장 최단 거리인 
+    # 현재 방문하지 않은 vertex 중에서 가장 최단 거리인 vertex를 찾아주는 것 -> 이 부분에서 시간이 선형적으로 찾으면서 오래걸린다
     min = int(1e9)
     for i in range(1, n+1):
         if visited[i] is False and min > dist[i]:
@@ -42,20 +42,14 @@ while (False in visited):
             start = i
 
 
+    # 이부분만 개선 시킨다면? 
+
 
 for i in range(1, n+1):
     if dist[i] == INF:
         print("INFINITY")
     else:
         print(dist[i])
-
-
-    
-
-    
-
-
-    
-
+#gi
 
 
