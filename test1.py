@@ -46,6 +46,9 @@
 
 
 
+from locale import atoi
+
+
 a = [[0]* 2 for _ in range(3)]
 print(a)
 
@@ -65,3 +68,6 @@ print(list(reversed(b)))
 
 print(a[-1])
 print(a)
+
+alpha = ord('A')
+print(alpha)
