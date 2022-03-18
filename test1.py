@@ -71,3 +71,11 @@ print(a)
 
 alpha = ord('A')
 print(alpha)
+
+city = [[list() for i in range(2)] for _ in range(3+1)]
+print(city)
+
+
+number = [1,2, 3]
+number.insert(2, 1)
+print(number)

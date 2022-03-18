@@ -8,42 +8,42 @@
 in1 = list(input().strip())
 in2 = list(input().strip())
 
-arr1 = ['0'] + in1
-arr2 = ['0'] + in2
+# arr1 = ['0'] + in1
+# arr2 = ['0'] + in2
 
 
-if len(arr1) > len(arr2):
-    long_arr = arr1
-    short_arr = arr2
+# if len(arr1) > len(arr2):
+#     long_arr = arr1
+#     short_arr = arr2
 
-else:
-    long_arr = arr2
-    short_arr = arr1
-
-
-dp = [0]*len(short_arr)
-
-start = 1
-
-for i in range(1, len(short_arr)):
-    detect_flag = False
-    if start > len(long_arr)-1:
-        dp[i] = dp[i-1]
-        continue
-
-    for j in range(start, len(long_arr)):
-        if short_arr[i] == long_arr[j] :
-            dp[i] = dp[i-1] + 1
-            detect_flag = True
-            start = j+1
-            print(short_arr[i])
-            break
-
-    if detect_flag == False:
-        dp[i] = dp[i-1]
+# else:
+#     long_arr = arr2
+#     short_arr = arr1
 
 
-print(dp[len(short_arr)-1])
+# dp = [0]*len(short_arr)
+
+# start = 1
+
+# for i in range(1, len(short_arr)):
+#     detect_flag = False
+#     if start > len(long_arr)-1:
+#         dp[i] = dp[i-1]
+#         continue
+
+#     for j in range(start, len(long_arr)):
+#         if short_arr[i] == long_arr[j] :
+#             dp[i] = dp[i-1] + 1
+#             detect_flag = True
+#             start = j+1
+#             print(short_arr[i])
+#             break
+
+#     if detect_flag == False:
+#         dp[i] = dp[i-1]
+
+
+# print(dp[len(short_arr)-1])
 
 
 # AC 로 시작할 수도 CA로 시작할 수도
@@ -54,3 +54,27 @@ print(dp[len(short_arr)-1])
 
 # 초기값 문제
 # dp[i][i] = 
+
+# dp[i][j] = 첫번째 i까지 왔을 때, 두번째 수열 j까지 왔을 때, 모두의 부분 수열이 되는 수열 중 가장 긴 것.
+# dp[i][j] = dp[i-1][j-1] 
+
+
+
+in1.insert(0, '0')
+in2.insert(0, '0')
+
+dp = [[0]*1001 for i in range(1001)]
+
+for i in range(1, len(in1)):
+    for j in range(1, len(in2)):
+        if in1[i] == in2[j] :
+            dp[i][j] = dp[i-1][j-1] + 1
+        else:
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+
+print(dp[len(in1)-1][len(in2)-1])
+
+
+
+
