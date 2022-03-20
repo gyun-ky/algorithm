@@ -73,8 +73,8 @@ for i in range(1, len(in1)):
             dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 
 
-print(dp[len(in1)-1][len(in2)-1])
 
+print(dp[len(in1)-1][len(in2-1)])
 
 
 
