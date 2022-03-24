@@ -55,7 +55,7 @@ for p in perm:
                     visited[nrow][ncol] = True
                     size -= 1
                     q.append((nrow, ncol))
-
+#
     answer = max(answer, size)
 
 print(answer)
