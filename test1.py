@@ -1,81 +1,33 @@
-# from itertools import permutations
-# from operator import itemgetter, attrgetter
+import heapq
 
-# a = [(1,2), (2, 2), (2, 1)]
-# test = [1, 3, 2]
-# a.sort(key = itemgetter(0, 1))
-# print(a)
-
-
-# result = sorted(a, key= lambda a : (a[0], a[1]))
-# print(result)
-
-# class User:
+def solution(jobs):
     
-#     def __init__(self, id, pwd):
-#         self.id = id
-#         self.pwd = pwd
+    jobs.sort(key = lambda x : (x[0], x[1]))
+    jobs_len = len(jobs)
+    
+    total_time = 0
+    
+    start_time = -1 # 중복처리를 피해주기 위해서 heap에 넣어줄 범위 설정
+    cur_time = 0
+    checked_jobs_cnt = 0
+    q = []
+    while checked_jobs_cnt < jobs_len:
+        
+        for j in jobs:
+            req_time, need_time = j
+            if start_time < req_time <= cur_time :
+                heapq.heappush(q, (need_time, req_time))
+        
+        if not q:
+            cur_time += 1
+            continue
+        need_time, req_time = heapq.heappop(q)
+        start_time = cur_time
+        cur_time += need_time
+        total_time += (cur_time - req_time)
+        checked_jobs_cnt += 1
+    
+    answer = total_time // jobs_len
+    return answer
 
-# user_list = [
-#  	User('id2', '1234'),
-#     User('id1', '2345')
-#     ]
- 
-#  # iterable 객체이기 때문에 sorted 사용
- 
-# result = sorted(user_list, key = attrgetter('id'))
- 
-# for u in result:
-#     print(u.id)
- 
-# # print(list(permutations(a, 3)))
-# # commit
-
-
-# dict = {1 : 1, 3 : 2, 2 : 2}
-# result = sorted(dict.items(), key=lambda a:(a[1], a[0]))
-# print(result)
-
-
-# A = [list() for _ in range(3)]
-# print(A)
-
-# new_A = [[1,2], [3, 4]]
-# A = new_A
-# print(A)
-
-
-
-from locale import atoi
-
-
-a = [[0]* 2 for _ in range(3)]
-print(a)
-
-b = [[[0]* 2 for _ in range(4)] for k in range(3)]
-
-print(b)
-b[2][0][1] = 1
-print("---")
-print(b)
-print(b[0])
-
-print("=---")
-a = [1,2,3]
-b = [2, 3, 4]
-print(a+b)
-print(list(reversed(b)))
-
-print(a[-1])
-print(a)
-
-alpha = ord('A')
-print(alpha)
-
-city = [[list() for i in range(2)] for _ in range(3+1)]
-print(city)
-
-
-number = [1,2, 3]
-number.insert(2, 1)
-print(number)
+solution([[0, 3], [1, 9], [2, 6]])
