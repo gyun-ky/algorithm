@@ -1,79 +1,54 @@
-from collections import deque
+graph = {}
+total_cnt = 0
 
-
-def full_music(minfo):
-    st, et, t, music_part = minfo.split(',')
+def dfs(s, cnt, answer):
+    global graph
     
-    music_part = parse_music(music_part)
+    if cnt == total_cnt:
+        return answer
     
-    sh, sm = map(int, st.split(':'))
-    eh, em = map(int, et.split(':'))
     
-    play_time = (eh*60 + em) - (sh*60 + sm)
+    # 만약 들어왔는데 graph에 없는 거면?
+        # 다시 
     
-    if play_time < len(music_part):
-        full_music = music_part[0:play_time]
-    else:
-        iter_time = play_time // (len(music_part))
-        last_time = play_time % (len(music_part))
-        print(iter_time)
-        print(last_time)
-        full_music = music_part*iter_time + music_part[0:last_time]
-    print(full_music)
-    return (t, play_time, music_part)
-
-
-def parse_music(m_str):
-    m_str = list(m_str.strip())
+    # 마지막인데 graph에 없는 거면?
     
-    result = []
-    
-    for i in range(len(m_str)):
+    for f in graph[s]:
+        # 아직 방문하지 않은 경우
+        if f[1] == False:
+            # 추가해줄 값이 graph에 없는 것인 경우
+            if f[0] not in graph:
+                if cnt == total_cnt-1:
+                    # answer에 추가 후 dfs 진행
+                    f[1] = True
+                    answer.append(f[0])
+                    return dfs(f[0], cnt+1, answer)
+                # 아닌 경우에는 다음 값으로 
+            # 추가해줄 값이 graph에 있는 값인 겨우
+            else:
+                f[1] = True
+                answer.append(f[0])
+                return dfs(f[0], cnt+1, answer)
         
-        if m_str[i] == '#':
-            n_str = m_str[i-1] + m_str[i]
-            result.pop()
-            result.append(n_str)
-        else:
-            result.append(m_str[i])
+    return answer
             
-    return result
-    
-def is_same(m, music, play_time, title, answer_list):
 
-    # dp[i][j] music의 i까지보고 m의 j까지 봤을 때의 일치하는지?
-    dp = [[0] * len(music) for _ in range(len(m))]
-
-    for i in range(len(m)):
-            for j in range(len(music)):
-                if m[i] == music[j]:
-                    dp[i][j] = dp[i-1][j-1] + 1
-                    if dp[i][j] == len(m):
-                        answer_list.append((play_time, title))
-                        return
-                        
-                else:
-                    dp[i][j] = 0
-
-def solution(m, musicinfos):
+def solution(tickets):
+    global graph, total_cnt
     
-
-    m = parse_music(m)
-    print(m)
+    for d, a in tickets:
+        if d in graph:
+            graph[d].append([a, False])
+        else:
+            graph[d] = [[a, False]]
+        total_cnt+=1
     
-    answer_list = []
-    answer_list_idx = 0
-    for minfo in musicinfos:
-        title, play_time, music = full_music(minfo)
-        
-        is_same(m, music, play_time, title, answer_list)
+    print(graph)
+    for k in graph:
+        graph[k].sort(key = lambda x : x[0])
     
-        
-                    
-    if len(answer_list) == 0:
-        answer = '(None)'
-    else:
-        answer_list.sort(key = lambda x: -x[0])
-        answer = answer_list[0][1]
+    print(graph)
+    
+    answer = dfs('ICN', 0, ['ICN'])
     
     return answer
