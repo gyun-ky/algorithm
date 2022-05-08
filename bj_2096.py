@@ -6,9 +6,9 @@
 
 N = int(input())
 
-data = []
-for i in range(N):
-    data.append(list(map(int, input().split())))
+# data = []
+# for i in range(N):
+#     data.append(list(map(int, input().split())))
 
 # 시간 복잡도
 # N - 100,000
@@ -40,33 +40,58 @@ min_num = int(1e9)
 ## j가 1인 경우 : min(dp[i-1][0] + data[i][j], dp[i-1][1] + data[i][j], dp[i-1][2] + data[i][j])
 ## j가 2인 경우 : min(dp[i-1][1] + data[i][j], dp[i-1][2] + data[i][j])
 
-dp1 = [[int(1e9)] * 3 for _ in range(N)]
-dp2 = [[-1]*3 for _ in range(N)]
-for i in range(3):
-    dp1[0][i], dp2[0][i] = data[0][i], data[0][i]
+# dp1 = [[int(1e9)] * 3 for _ in range(N)]
+# dp2 = [[-1]*3 for _ in range(N)]
+
+tmp = list(map(int, input().split()))
+dp1 = tmp[:]
+dp2 = tmp[:]
+
 
 for i in range(1,N):
-    for j in range(3):
-        if j == 0:
-            tmp1 = [dp1[i][j], dp1[i-1][0] + data[i][j], dp1[i-1][1] + data[i][j]]
-            tmp2 = [dp2[i][j], dp2[i-1][0] + data[i][j], dp2[i-1][1] + data[i][j]]
-            
-        elif j == 1:
-            tmp1 = [dp1[i][j], dp1[i-1][0] + data[i][j], dp1[i-1][1] + data[i][j], dp1[i-1][2] + data[i][j]]
-            tmp2 = [dp2[i][j], dp2[i-1][0] + data[i][j], dp2[i-1][1] + data[i][j], dp2[i-1][2] + data[i][j]]
-    
-        else:
-            tmp1 = [dp1[i][j], dp1[i-1][1] + data[i][j], dp1[i-1][2] + data[i][j]]
-            tmp2 = [dp2[i][j], dp2[i-1][1] + data[i][j], dp2[i-1][2] + data[i][j]]
-    
-        dp1[i][j] = min(tmp1)
-        dp2[i][j] = max(tmp2)
 
-print(max(dp2[N-1]), end=' ')
-print(min(dp1[N-1]), end=' ')
+    data = list(map(int, input().split()))
+
+    candi_min_0 = [dp1[0]+data[0], dp1[1]+data[0]]
+    candi_min_1 = [dp1[0]+data[1], dp1[1]+data[1], dp1[2]+data[1]]
+    candi_min_2 = [dp1[1]+data[2], dp1[2]+data[2]]
+    dp1 = [min(candi_min_0), min(candi_min_1), min(candi_min_2)]
+
+    candi_max_0 = [dp2[0]+data[0], dp2[1]+data[0]]
+    candi_max_1 = [dp2[0]+data[1], dp2[1]+data[1], dp2[2]+data[1]]
+    candi_max_2 = [dp2[1]+data[2], dp2[2]+data[2]]
+    dp2 = [max(candi_max_0), max(candi_max_1), max(candi_max_2)]
+
+
+print(max(dp2), end=' ')
+print(min(dp1), end=' ')
 
 # 3*100,000 = 300,000 / 300,000 * 4 * 3 -> 3600,000
 # 4000,000
+
+
+# for i in range(1,N):
+
+
+#     for j in range(3):
+#         if j == 0:
+#             tmp1 = [dp1[i][j], dp1[i-1][0] + data[i][j], dp1[i-1][1] + data[i][j]]
+#             tmp2 = [dp2[i][j], dp2[i-1][0] + data[i][j], dp2[i-1][1] + data[i][j]]
+            
+#         elif j == 1:
+#             tmp1 = [dp1[i][j], dp1[i-1][0] + data[i][j], dp1[i-1][1] + data[i][j], dp1[i-1][2] + data[i][j]]
+#             tmp2 = [dp2[i][j], dp2[i-1][0] + data[i][j], dp2[i-1][1] + data[i][j], dp2[i-1][2] + data[i][j]]
+    
+#         else:
+#             tmp1 = [dp1[i][j], dp1[i-1][1] + data[i][j], dp1[i-1][2] + data[i][j]]
+#             tmp2 = [dp2[i][j], dp2[i-1][1] + data[i][j], dp2[i-1][2] + data[i][j]]
+    
+#         dp1[i][j] = min(tmp1)
+#         dp2[i][j] = max(tmp2)
+
+# print(max(dp2[N-1]), end=' ')
+# print(min(dp1[N-1]), end=' ')
+
 
 
 # dp2[i][j] : i,j까지 왔을 떄의 최대
