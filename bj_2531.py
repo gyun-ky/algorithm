@@ -5,7 +5,9 @@
 # 초밥 쿠폰 제공 -> 위의 행사에 참가 경우, 추가로 무료 제공 (벨트위에 없을 경우 만들어서 제공)
 
 # 가능한한 다양한 초밥 먹기
-
+from collections import defaultdict
+import sys
+input = sys.stdin.readline
 # 접시수 / 초밥 가짓수 / 연속 먹는 접시수 / 쿠포번호
 N, d, k, c = map(int, input().split())
 
@@ -23,20 +25,28 @@ answer = -1
 
 start = 0
 end = k
-array = sushi_expand[start:end]
+dict_s = defaultdict(int)
+
+
+for i in range(0, k):
+    dict_s[sushi_expand[i]] += 1
+
+
+dict_s[c] += 1
 
 while start < N:
-    # 쿠폰번호 c 넣기
-    array.append(c)
+
     # 중복 제거
-    reduce_redun = set(array)
-    answer = max(answer, len(reduce_redun))
+    answer = max(answer, len(dict_s.keys()))
     # 쿠폰번호 c 제거
     # array.pop()
-
+    dict_s[sushi_expand[start]] -= 1
+    if dict_s[sushi_expand[start]] == 0:
+        del dict_s[sushi_expand[start]]
     start += 1
+    
+    dict_s[sushi_expand[end]] += 1
     end += 1
-    array = sushi_expand[start:end]
 
 print(answer)
 
